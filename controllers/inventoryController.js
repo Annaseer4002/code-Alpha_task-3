@@ -5,14 +5,18 @@ const HandleCreateInventory = async (req, res) => {
    
 try {
         
-         const {itemName, quantity} = req.body
+         const {itemName, quantityInstock, unit} = req.body
 
     if(!itemName) {
         return res.status(400).json({message:'Please enter an item name'})
     }
 
-     if(!quantity) {
+     if(!quantityInstock) {
         return res.status(400).json({message:'quantity is required'})
+    }
+
+    if(!unit){
+        return res.status(400).json({message:'item`s unit is required'})
     }
 
     const checkItem = await inventoryModel.findOne(itemName)
@@ -23,7 +27,8 @@ try {
 
     const item = new inventoryModel({
         itemName,
-        quantity
+        quantityInStock,
+        unit
     })
 
     await item.save()
@@ -32,7 +37,8 @@ try {
         message:'Item added successful',
         item: {
             itemName: item?.itemName,
-            quantity: item?.quantity,
+            quantity: item?.quantityInStock,
+            unit: item?.unit,
             id: item?._id
         }
     })
@@ -52,7 +58,7 @@ const HandleUpdateInventory = async (req, res) => {
      
     const {id} = req.params
 
-    const {itemName, quantity} = req.body
+    const {itemName, quantityInStock, unit} = req.body
 
     if(!id){
         return res.status(400).json({message:'Id is required'})
@@ -60,7 +66,8 @@ const HandleUpdateInventory = async (req, res) => {
 
     const item = await inventoryModel.findByIdAndUpdate(id,{
         itemName,
-        quantity
+        quantityInStock,
+        unit
     },{new:true})
 
     await item.save()

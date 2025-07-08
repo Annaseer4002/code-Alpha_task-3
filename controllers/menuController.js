@@ -4,7 +4,7 @@ const menuModel = require('../models/menuModel')
 
 
 const HandleAddMenuItem = async (req, res) => {
-    const {name, category, price, description, availability} = req.body
+    const {name, price, ingredients} = req.body
 
     if(!name) {
         return res.status(400).json({message:'All fields required'})
@@ -58,7 +58,7 @@ const HandleDeleteMenuItem = async (req, res) => {
 
 const HandleUpdateMenuItem = async (req, res) => {
     const { id } = req.params
-    const {name, category, price, description, availability} = req.body
+    const {name, price, ingredients} = req.body
 
     if(!id){
         return res.status(400).json({message:'id is required'})
@@ -66,10 +66,8 @@ const HandleUpdateMenuItem = async (req, res) => {
 
     const updatedMenu = await menuModel.findByIdAndUpdate(id, {
         name, 
-        category, 
         price, 
-        description, 
-        availability
+        ingredients
     }, {new:true})
 
     await updatedMenu.save()

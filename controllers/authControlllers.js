@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 const authModel = require('../models/authModel')
 
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+
 const HandleSignUp = async (req, res) => {
     try {
 
@@ -22,7 +25,7 @@ const HandleSignUp = async (req, res) => {
         return res.status(400).json({message: 'password must be minimum of 6 characters'})
     }
 
-    const existingUser = await authModel.findOne(email)
+    const existingUser = await authModel.findOne({email})
 
     if(existingUser) {
         return res.status(400).json({message:'user already exist, please login'})
@@ -54,8 +57,9 @@ const HandleSignUp = async (req, res) => {
 }
 
 const HandleLogin = async (req, res) => {
-
-    const { email, password } = req.body
+   
+    try {
+          const { email, password } = req.body
 
     if(!email) {
         return res.status(400).json({message:'Please enter your email'})
@@ -65,7 +69,7 @@ const HandleLogin = async (req, res) => {
         return res.status(400).json({message:'Please enter your password'})
     }
 
-    const user = await authModel.findOne(email);
+    const user = await authModel.findOne({email});
 
     if(!user) {
         return res.status(404).json({message:'user not found'})
@@ -104,6 +108,13 @@ const HandleLogin = async (req, res) => {
     })
 
 
+        
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+     
+
+
 }
 
 const HandleForgetPassword = async (req, res) => {
@@ -113,7 +124,7 @@ const HandleForgetPassword = async (req, res) => {
         return res.status(400).json({message:'Email is required'})
     }
 
-    const user = await authModel.findOne(email)
+    const user = await authModel.findOne({email})
 
     if(!user){
         return res.status(400).json({message:'user not found'})

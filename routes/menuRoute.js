@@ -1,14 +1,12 @@
 const express = require('express')
-const { HandleAddMenuItem, HandleDeleteMenuItem, HandleUpdateMenuItem } = require('../controllers/menuController')
+const { HandleAddMenuItem, HandleUpdateMenuItem, HandleDeleteMenuItem, HandleFindAllMenus, HandleFindOneMenu } = require('../controllers/menuController')
 
+const Router = express.Router()
 
+Router.post('/menu', HandleAddMenuItem)
+Router.post('/updateMenu', HandleUpdateMenuItem)
+Router.delete('/deleteMenu', HandleDeleteMenuItem)
+Router.get('/allMenu', HandleFindAllMenus)
+Router.get('/oneMenu', HandleFindOneMenu)
 
-const router = express.Router()
-
-router.post('/addMenuItem', HandleAddMenuItem)
-
-router.delete('/deleteMenu/:id', HandleDeleteMenuItem)
-
-router.put('/updateMenu', HandleUpdateMenuItem)
-
-module.exports = router
+module.exports = Router;

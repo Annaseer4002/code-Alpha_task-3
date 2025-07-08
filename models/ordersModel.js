@@ -9,11 +9,14 @@ const orderSchema = mongoose.Schema({
         ref:'Menu', 
         required: true},
 
-     quantity: {
+       quantity: {
         type: Number,
         required: true, 
         min: 1}
-    }
+
+    },
+
+    
   ],
 
   status: {

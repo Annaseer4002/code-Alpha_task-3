@@ -3,6 +3,9 @@ const mongoose = require ('mongoose')
 const cors = require ('cors')
 const dotenv = require ('dotenv')
 const routes = require('./routes')
+
+
+
 dotenv.config()
 
 const app = express ()
@@ -20,7 +23,9 @@ mongoose.connect (process.env.MONGODB_URL)
 })
 
 app.get('/', (req, res)=>{
-    res.json('Welcom To URl shortener API')
+    res.json('Welcome To Restaurants Reservation System')
 })
 
+
 app.use('/api', routes)
+

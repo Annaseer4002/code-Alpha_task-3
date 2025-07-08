@@ -4,7 +4,7 @@ const tablesModel = require('../models/tablesModel')
 
 const HandleCreateTable = async (req, res) => {
    
-     const {tableNumber, capacity} = req.body
+     const {tableNumber, seats} = req.body
 
      try {
 
@@ -12,8 +12,8 @@ const HandleCreateTable = async (req, res) => {
             return res.status(400).json({message:'Table No. is required'})
         }
 
-         if(!capacity){
-            return res.status(400).json({message:'capacity is required'})
+         if(!seats){
+            return res.status(400).json({message:'seat number are required'})
         }
 
         const checkTable = await tablesModel.findOne(tableNumber)
@@ -24,7 +24,7 @@ const HandleCreateTable = async (req, res) => {
 
         const table = new tablesModel({
             tableNumber,
-            capacity
+            seats
         })
 
         await table.save()
@@ -33,7 +33,7 @@ const HandleCreateTable = async (req, res) => {
             message:'Table created Succesful',
             tabel: {
                 tabelNumber: table?.tableNumber,
-                capacity: table?.capacity,
+                seats: table?.seats,
                 id: table?._id
             }
         })
@@ -52,18 +52,18 @@ const HandleUpdateTable = async (req, res) => {
 
        const { id } = req.params
 
-       const { capacity } = req.body
+       const { seats } = req.body
 
        if(!id){
           return res.status(400).json({message:'id is required'})
        }
 
-       if(!capacity || capacity < 1) {
-        return res.status(400).json({message:'Invalid input'})
+       if(!seats || seats < 1) {
+        return res.status(400).json({message:'Invalid input, seats number is required'})
        }
 
        const updatedTable = await tablesModel.findByIdAndUpdate(id,
-        {$set: {capacity} },
+        {$set: {seats} },
         {new:true})
 
        if(!updatedTable) {
