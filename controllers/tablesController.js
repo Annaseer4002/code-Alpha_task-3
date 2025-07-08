@@ -16,9 +16,9 @@ const HandleCreateTable = async (req, res) => {
             return res.status(400).json({message:'seat number are required'})
         }
 
-        const checkTable = await tablesModel.findOne(tableNumber)
+        const checkTable = await tablesModel.findOne({tableNumber})
 
-        if(tableNumber){
+        if(checkTable){
             return res.status(400).json({message:'Table already exist'})
         }
 
@@ -69,7 +69,16 @@ const HandleUpdateTable = async (req, res) => {
        if(!updatedTable) {
          return res.status(404).json({message:'Table not found'})
        }
-
+        
+       await updatedTable.save()
+         res.status(200).json({
+              message:'Table updated successfully',
+              table: {
+                tableNumber: updatedTable?.tableNumber,
+                seats: updatedTable?.seats,
+                id: updatedTable?._id
+              }
+         })
       
 
 

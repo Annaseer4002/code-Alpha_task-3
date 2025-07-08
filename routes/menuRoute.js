@@ -4,9 +4,9 @@ const { HandleAddMenuItem, HandleUpdateMenuItem, HandleDeleteMenuItem, HandleFin
 const Router = express.Router()
 
 Router.post('/menu', HandleAddMenuItem)
-Router.post('/updateMenu', HandleUpdateMenuItem)
+Router.put('/updateMenu', HandleUpdateMenuItem)
 Router.delete('/deleteMenu', HandleDeleteMenuItem)
 Router.get('/allMenu', HandleFindAllMenus)
-Router.get('/oneMenu', HandleFindOneMenu)
+Router.get('/oneMenu/:id', HandleFindOneMenu)
 
 module.exports = Router;

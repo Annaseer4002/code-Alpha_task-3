@@ -6,4 +6,4 @@ const tableSchema = new mongoose.Schema({
     status: {type: String, enum: ['reserved','available'], default:'available'}
 }, {timestamps: true})
 
-module.exports = mongoose.model ('Table', userSchema)
+module.exports = mongoose.model ('Table', tableSchema)

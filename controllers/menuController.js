@@ -10,35 +10,35 @@ const HandleAddMenuItem = async (req, res) => {
         return res.status(400).json({message:'All fields required'})
     }
 
-     if(!category) {
-        return res.status(400).json({message:'All fields required'})
-    }
-
      if(!price) {
         return res.status(400).json({message:'All fields required'})
     }
 
-     if(!description) {
+       if(!ingredients) {
         return res.status(400).json({message:'All fields required'})
     }
 
-     if(!availability) {
-        return res.status(400).json({message:'All fields required'})
-    }
+   const checkMenu = await menuModel.findOne({name})
+
+    if(checkMenu) {
+        return res.status(400).json({message:'Menu item already exist'})}
 
     const menu = new menuModel({
-        name, 
-        category, 
-        price, 
-        description, 
-        availability
+        name,  
+        price,
+        ingredients 
+       
     })
 
     await menu.save()
 
     res.status(201).json({
         message:'menu item added successfully',
-        menu
+        menu: {
+            name: menu?.name,
+            price: menu?.price,
+            ingredients: menu?.ingredients
+        }
     })
 }
 

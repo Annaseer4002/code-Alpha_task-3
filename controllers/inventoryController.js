@@ -5,13 +5,13 @@ const HandleCreateInventory = async (req, res) => {
    
 try {
         
-         const {itemName, quantityInstock, unit} = req.body
+         const {name, quantityInStock, unit} = req.body
 
-    if(!itemName) {
+    if(!name) {
         return res.status(400).json({message:'Please enter an item name'})
     }
 
-     if(!quantityInstock) {
+     if(!quantityInStock) {
         return res.status(400).json({message:'quantity is required'})
     }
 
@@ -19,14 +19,14 @@ try {
         return res.status(400).json({message:'item`s unit is required'})
     }
 
-    const checkItem = await inventoryModel.findOne(itemName)
+    const checkItem = await inventoryModel.findOne({name})
 
     if(checkItem){
         return res.status(400).json({message:'item name already exist'})
     }
 
     const item = new inventoryModel({
-        itemName,
+        name,
         quantityInStock,
         unit
     })
@@ -36,8 +36,8 @@ try {
     res.status(201).json({
         message:'Item added successful',
         item: {
-            itemName: item?.itemName,
-            quantity: item?.quantityInStock,
+            name: item?.name,
+            quantityInstock: item?.quantityInStock,
             unit: item?.unit,
             id: item?._id
         }
@@ -58,14 +58,14 @@ const HandleUpdateInventory = async (req, res) => {
      
     const {id} = req.params
 
-    const {itemName, quantityInStock, unit} = req.body
+    const {name, quantityInStock, unit} = req.body
 
     if(!id){
         return res.status(400).json({message:'Id is required'})
     }
 
     const item = await inventoryModel.findByIdAndUpdate(id,{
-        itemName,
+        name,
         quantityInStock,
         unit
     },{new:true})
@@ -86,7 +86,44 @@ const HandleUpdateInventory = async (req, res) => {
    
 }
 
+const HandleGetAllInventories = async (req, res) => {
+   
+    const inventories = await inventoryModel.find()
+
+    if(!inventories) {
+        return res.status(404).json({message:'Inventories not found'})
+    }
+
+    res.status(200).json({
+        message:'success',
+        inventories
+      
+    })
+}
+
+const HandleGetInventory = async (req, res) => {
+    
+    const { id } = req.params
+
+    if(!id) {
+        return res.status(400).json({message:'id is required'})
+    }
+
+    const inventory = await inventoryModel.findById(id)
+
+    if(!inventory){
+        return res.status(404).json({message:"inventory not found"})
+    }
+
+    res.status(200).json({
+        message:'success',
+        inventory
+    })
+}
+
 module.exports = {
     HandleCreateInventory,
-    HandleUpdateInventory
+    HandleUpdateInventory,
+    HandleGetAllInventories,
+    HandleGetInventory
 }
