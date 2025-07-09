@@ -80,7 +80,7 @@ const HandleUpdateMenuItem = async (req, res) => {
 
 const HandleFindAllMenus = async (req, res) => {
    
-    const menu = await menuModel.find()
+    const menu = await menuModel.find().populate('ingredients.inventoryId') 
 
     if(!menu){
         return res.status(404).json({message:'No available menu`s'})
@@ -99,7 +99,7 @@ const HandleFindOneMenu = async (req, res) => {
         return res.status(400).json({message:'id is required'})
     }
 
-    const menu = await menuModel.findById(id)
+    const menu = await menuModel.findById(id).populate('ingredients.inventoryId')
 
     if(!menu){
         return res.status(404).json({message:'menu not found'})

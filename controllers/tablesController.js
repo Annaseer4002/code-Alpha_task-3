@@ -87,8 +87,27 @@ const HandleUpdateTable = async (req, res) => {
    }
 }
 
+const HandleFindAllTables = async (req, res) => {
+    try {
+
+const allTables = await tablesModel.find()
+if(!allTables || allTables.length === 0) {
+    return res.status(404).json({message:'No tables found'})
+}
+res.status(200).json({
+    message:"All tables fetched successfully",
+    allTables
+})
+
+
+    }catch(error){
+        res.status(500).json(error.message)
+    }
+}
+
 
  module.exports = {
     HandleCreateTable,
-    HandleUpdateTable
+    HandleUpdateTable,
+    HandleFindAllTables
  }

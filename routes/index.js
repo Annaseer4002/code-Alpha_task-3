@@ -6,6 +6,9 @@ authRoutes = require('./authRoute');
 menuRoutes = require('./menuRoute')
 inventoryRoutes = require('./inventoryRoute')
 tableRoutes = require('./tableRoute')
+reservationRoutes = require('./reservationRoute')
+orderRoutes = require('./orderRoute')
+
 
 
 
@@ -14,7 +17,11 @@ const routes = [
     authRoutes,
     menuRoutes,
     inventoryRoutes,
-    tableRoutes
+    tableRoutes,
+    reservationRoutes,
+    orderRoutes
+    
+    
 ]
 
 module.exports = routes;
