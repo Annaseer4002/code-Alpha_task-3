@@ -4,7 +4,11 @@ const menuModel = require('../models/menuModel');
 
   const HandlePlaceOrderModel = async (req, res) => {
       
-    const { userId, items } = req.body
+     try{
+
+
+
+        const { userId, items } = req.body
 
     let totalPrice = 0;
 
@@ -36,6 +40,10 @@ const menuModel = require('../models/menuModel');
             orderedAt: order?.orderedAt
         }
     })
+
+     }catch(error){
+        res.status(500).json(error.message)
+     }
   }
 
 

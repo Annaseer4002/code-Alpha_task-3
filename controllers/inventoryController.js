@@ -88,7 +88,8 @@ const HandleUpdateInventory = async (req, res) => {
 
 const HandleGetAllInventories = async (req, res) => {
    
-    const inventories = await inventoryModel.find()
+  try{
+      const inventories = await inventoryModel.find()
 
     if(!inventories) {
         return res.status(404).json({message:'Inventories not found'})
@@ -99,11 +100,17 @@ const HandleGetAllInventories = async (req, res) => {
         inventories
       
     })
+
+  }catch(error){
+  res.status(500).json(error.message)
+  }
 }
 
 const HandleGetInventory = async (req, res) => {
     
-    const { id } = req.params
+   try{
+
+     const { id } = req.params
 
     if(!id) {
         return res.status(400).json({message:'id is required'})
@@ -119,6 +126,10 @@ const HandleGetInventory = async (req, res) => {
         message:'success',
         inventory
     })
+
+   }catch(error){
+    res.status(500).json(error.message)
+   }
 }
 
 module.exports = {

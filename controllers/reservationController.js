@@ -4,7 +4,8 @@ const tablesModel = require('../models/tablesModel')
 
 
 const HandleReserveTable = async (req, res) => {
-    const {tableId, guestNumber, userId } = req.body 
+   try {
+     const {tableId, guestNumber, userId } = req.body 
 
     const reservation = new reservationModel({
         tableId, guestNumber, userId
@@ -28,6 +29,9 @@ const HandleReserveTable = async (req, res) => {
             reservedAt: reservation?.reservedAt
         }
     })
+   } catch (error) {
+res.status(500).json(error.message)
+   }
 }
 
 const HandleGetReservations = async (req, res) => {
@@ -40,7 +44,9 @@ const HandleGetReservations = async (req, res) => {
 }
 
 const HandleDeleteReservation = async (req, res) => {
-    const { id } = req.params
+   try {
+
+     const { id } = req.params
 
     if(!id) {
         return res.status(400).json({message:'Id is required'})
@@ -55,11 +61,15 @@ const HandleDeleteReservation = async (req, res) => {
     res.status(200).json({
         message:'Reservation deleted successfully'
     })
+    
+   } catch (error) {
+      res.status(500).json(error.message)
+   }
 }
 
 
 module.exports = {
     HandleReserveTable,
     HandleGetReservations,
-    HandleDeleteReservation
+    HandleDeleteReservation 
 }

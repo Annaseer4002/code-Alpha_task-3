@@ -119,7 +119,9 @@ const HandleLogin = async (req, res) => {
 
 const HandleForgetPassword = async (req, res) => {
     const  {email} = req.body
+    try {
 
+        
     if(!email){
         return res.status(400).json({message:'Email is required'})
     }
@@ -136,10 +138,16 @@ const HandleForgetPassword = async (req, res) => {
         message:'mail sent, please check your email or spam folders',
         user
     })
+        
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
 }
 
 const HandleResetPassword = async (req, res) => {
-    const { password } = req.body
+   try {
+
+     const { password } = req.body
 
     if(!password){
         return res.status(400).json({message:'please enter your password'})
@@ -152,6 +160,10 @@ const HandleResetPassword = async (req, res) => {
     const newPassword = await (user.password, hashedPassword)
 
     await newPassword.save()
+    
+   } catch (error) {
+    res.status(500).json(error.message)
+   }
 }
 
 
